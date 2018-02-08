@@ -71,7 +71,7 @@ class Entity{
 	 * Adds a named Animation to this Entity. At least one Animation needs to exist in order for this Entity to be able to spawn
 	 * @param  {string} name - Animation name
 	 * @param  {Animation} ani - Animation object
-	 * @see  spawn
+	 * @see  {@link Entity#spawn|spawn}
 	 */
 	registerAnimation(name, ani){
 		this.animations[name] = ani;
@@ -120,13 +120,21 @@ class Entity{
 	 * @param  {number} x - x-coordinate
 	 * @param  {number} y - y-coordinate
 	 * @param  {string} ani - animation name
-	 * @see registerAnimation
+	 * @see {@link Entity#registerAnimation|registerAnimation}
 	 */
 	spawn(x,y, ani){
 		this.x = x;
 		this.y = y;
 		this.animation = this.animations[ani];
 	}
+
+	/**
+	 * Custom Operations to setup this Entity
+	 * @see  {@link Entity#setWidth|setWidth}
+	 * @see  {@link Entity#setHeight|setHeight}
+	 * @see  {@link Entity#registerAnimation|registerAnimation}
+	 * @abstract
+	 */
 	init(){}
 }
 
