@@ -4,8 +4,18 @@
  * Static bezier easing API for the WAGE Workflow
  * @memberof WAGE.API
  * @hideconstructor
+ * @abstract
  */
 class Curve{
+
+	/**
+	 * Makes this API abstract
+	 */
+	constructor(){
+		if (this.constructor === Curve) {
+			throw new Error('Curve is an abstract class and can not be instantiated.');
+		}
+	}
 
 	/**
 	 * Linear easing curve

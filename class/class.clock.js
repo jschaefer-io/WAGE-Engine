@@ -4,8 +4,18 @@
  * Static time API for the WAGE Workflow
  * @memberof WAGE.API
  * @hideconstructor
+ * @abstract
  */
 class Clock{
+
+	/**
+	 * Makes this API abstract
+	 */
+	constructor(){
+		if (this.constructor === Clock) {
+			throw new Error('Clock is an abstract class and can not be instantiated.');
+		}
+	}
 
 	/**
 	 * Starts a new time-interval and returns the duration of the last one

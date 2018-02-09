@@ -3,6 +3,7 @@
 /**
  * Creates a Game-Entity, which integrates into the WAGE Workflow
  * @memberof WAGE.Core
+ * @abstract
  */
 class Entity{
 
@@ -12,6 +13,10 @@ class Entity{
 	 * @param  {int} height - Entity height
 	 */
 	constructor(width, height){
+		if (this.constructor === Entity) {
+			throw new Error('Effect is an abstract class and can not be instantiated.');
+		}
+
 		this.a = null;
 		this.hitbox = null;
 		this.animation = null;
@@ -137,7 +142,9 @@ class Entity{
 	 * @see  {@link Entity#registerAnimation|registerAnimation}
 	 * @abstract
 	 */
-	init(){}
+	init(){
+		throw new Error('The init method is abstract and needs to be implemented.');
+	}
 }
 
 export default Entity;

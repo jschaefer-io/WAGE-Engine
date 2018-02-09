@@ -5,17 +5,21 @@ import Clock from './class.clock.js';
 /**
  * Creates an Effect-Handler, which integrates into the WAGE Workflow
  * @memberof WAGE.Core
+ * @abstract
  */
 class Effect{
 
 	/**
 	 * Construct the Texture
 	 * @param  {int} [duration] - Time this effect will be applied
-	 * @param {Function} callback - Function called, when the done() method is called or when the Effect is flagged as removed
+	 * @param {Function} [callback] - Function called, when the done() method is called or when the Effect is flagged as removed
 	 */
-	constructor(duration = 0, callback = ()=>{}){	
-		this.data = {};
+	constructor(duration = 0, callback = ()=>{}){
+		if (this.constructor === Effect) {
+			throw new Error('Effect is an abstract class and can not be instantiated.');
+		}
 
+		this.data = {};
 		this.remove = false;
 		this.duration = duration;
 		this.timings = {};
@@ -60,7 +64,7 @@ class Effect{
 	 * @return {Boolean}
 	 */
 	onRender(){
-		return false;
+		throw new Error('The onRender method is abstract and needs to be implemented.');
 	}
 
 	/**
@@ -69,7 +73,7 @@ class Effect{
 	 * @return {Boolean}
 	 */
 	onProcess(){
-		return false;
+		throw new Error('The onProcess method is abstract and needs to be implemented.');
 	}
 
 	/**
@@ -104,7 +108,9 @@ class Effect{
 	 * @param  {Entity} entity - Entity this effect is applied to
 	 * @param  {Object} frame - Current frame object
 	 */
-	dispatch(entity, frame){}
+	dispatch(entity, frame){
+		throw new Error('The dispatch method is abstract and needs to be implemented.');
+	}
 
 	/**
 	 * Custom reset if the duration ends. Is meant to reset modifications on the entity or frame object.
