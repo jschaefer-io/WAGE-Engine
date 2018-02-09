@@ -1,7 +1,10 @@
+'use strict';
+
 import Clock from './class.clock.js';
 
 /**
  * Creates an Effect-Handler, which integrates into the WAGE Workflow
+ * @memberof WAGE.Core
  */
 class Effect{
 

@@ -5,7 +5,7 @@
   "main": "wage.js",
   "scripts": {
     "dev": "gulp sync",
-    "doc": "jsdoc -d ./doc -r class"
+    "doc": "jsdoc -d ./doc -r class wage.js"
   },
   "author": "Jannik Schäfer <me@jschaefer.io>",
   "license": "ISC",

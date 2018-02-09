@@ -1,6 +1,9 @@
+'use strict';
 
 /**
  * Collection API for entities for the WAGE Workflow
+ * @memberof WAGE.API
+ * @hideconstructor
  */
 class EntityCollector{
 

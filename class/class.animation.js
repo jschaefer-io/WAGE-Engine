@@ -1,6 +1,8 @@
+'use strict';
 
 /**
  * Creates an Animation-Handler, which integrates into the WAGE Workflow
+ * @memberof WAGE.Core
  */
 class Animation{
 

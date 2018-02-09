@@ -1,6 +1,8 @@
+'use strict';
 
 /**
  * Creates a Game-Entity, which integrates into the WAGE Workflow
+ * @memberof WAGE.Core
  */
 class Entity{
 

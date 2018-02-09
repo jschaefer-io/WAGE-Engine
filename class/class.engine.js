@@ -1,5 +1,8 @@
+'use strict';
+
 /**
  * Main Engine Handler
+ * @memberof WAGE
  */
 class Engine{
 

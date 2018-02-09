@@ -1,6 +1,9 @@
+'use strict';
 
 /**
  * Static bezier easing API for the WAGE Workflow
+ * @memberof WAGE.API
+ * @hideconstructor
  */
 class Curve{
 

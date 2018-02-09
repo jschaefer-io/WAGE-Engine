@@ -1,6 +1,9 @@
+'use strict';
 
 /**
  * Static time API for the WAGE Workflow
+ * @memberof WAGE.API
+ * @hideconstructor
  */
 class Clock{
 

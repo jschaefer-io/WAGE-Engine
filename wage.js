@@ -1,3 +1,10 @@
+'use strict';
+
+/**
+ * The WAGE Engine
+ * @namespace WAGE
+ */
+
 import Animation from './class/class.animation.js';
 import Clock from './class/class.clock.js';
 import Curve from './class/class.curve.js';
@@ -8,3 +15,41 @@ import Entity from './class/class.entity.js';
 import Hitbox from './class/class.hitbox.js';
 import TexLoader from './class/class.texloader.js';
 import Texture from './class/class.texture.js';
+import Input from './class/class.input.js';
+import Queue from './class/class.queue.js';
+
+
+window.WAGE = {
+
+	Engine,
+
+	/**
+	 * Core Elements of the WAGE-ENGINE
+	 * @namespace WAGE.Core
+	 */
+	Core: {
+		Animation,
+		Entity,
+		Hitbox,
+		Texture,
+		Input,
+		Effect
+	},
+	/**
+	 * Major APIs of the WAGE-Engine
+	 * @namespace WAGE.API
+	 */
+	API: {
+		Clock,
+		Curve,
+		EntityCollector,
+		TexLoader
+	},
+	/**
+	 * General Helpers of the WAGE-Engine
+	 * @namespace WAGE.Helper
+	 */
+	Helper: {
+		Queue
+	}
+};

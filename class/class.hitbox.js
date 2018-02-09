@@ -1,6 +1,8 @@
+'use strict';
 
 /**
  * Creates a Hitbox handler, which integrates into the WAGE Workflow
+ * @memberof WAGE.Core
  */
 class Hitbox{
 

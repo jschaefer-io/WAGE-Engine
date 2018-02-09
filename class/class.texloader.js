@@ -1,5 +1,9 @@
+'use strict';
+
 /**
  * Texture Loader for the WAGE Workflow
+ * @memberof WAGE.API
+ * @hideconstructor
  */
 class TexLoader{
 
@@ -30,18 +34,24 @@ class TexLoader{
 
 	/**
 	 * Loads all Textures into the Browser
+	 * @param {function} [callback] - Callback which gets called on every update
 	 * @return {Promise} Promise of all Textures beeing loaded successfully
 	 */
-	load(){
+	load(callback = ()=>{}){
 		return new Promise((resolve, reject)=>{
 			for (var i = 0; i < this.tex.length; i++) {
 				this.tex[i].load(()=>{
 					this.loaded++;
+					callback(this.count, this.loaded);
 					if (this.loaded === this.count) {
 						this.reset();
 						resolve(this, 'Textures loaded');
+						return;
 					}
 				});
+			}
+			if (this.tex.length === 0) {
+				resolve(this, 'Textures loaded');
 			}
 		});
 	}
