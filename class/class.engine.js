@@ -99,6 +99,11 @@ class Engine{
 			entity.process(time, this);
 			entity.dispatchVector(time);
 		});
+
+		// Collision handler
+		let collisions = [];
+		this.entities.forEach((entity, index)=>{
+			collisions[index] = entity.checkCollisions(this.entities, index, collisions);
 		});
 	}
 

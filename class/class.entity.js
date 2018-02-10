@@ -1,5 +1,8 @@
 'use strict';
 
+import Clock from './class.clock.js';
+import Hitbox from './class.hitbox.js';
+
 /**
  * Creates a Game-Entity, which integrates into the WAGE Workflow
  * @memberof WAGE.Core
@@ -154,11 +157,53 @@ class Entity{
 	}
 
 	/**
+	 * Checks, if this entity collides with one entity out of the given list (ignoring itself)
+	 * and starts the collision dispatcher
+	 * @param  {array} list - Array of entities
+	 * @param  {id} [self] - own index in the array
+	 * @param {array} done - Result of past collision checks
+	 * @return {array} List of indexes, where a collision occured
+	 */
+	checkCollisions(list, self = false, done = []){
+		let now = Clock.now(),
+			selfBox = this.animation.next(now).data.hitbox,
+			compBox,
+			direction,
+			collisions = [];
+		list.forEach((entity, index)=>{
+			if ((self === false || self !== index) && done[index] === undefined) {
+				compBox = entity.animation.next(now).data.hitbox;
+				if (Hitbox.checkCollision(selfBox, this, compBox, entity)) {
+				   	collisions.push(index);
+
+				   	direction = Hitbox.checkCollisionDirection(selfBox, this, compBox, entity);
+				   	this.resolveCollision(entity, direction.origin, selfBox, compBox);
+					entity.resolveCollision(this, direction.target, compBox, selfBox);
+					
+				}		
+			}
+		});
+		return collisions;
+	}
+
+	/**
+	 * Custom Collision resolve - Resolves the collision with another entity.
+	 * @param  {Entity} entity - Entity which collided with the current Entity
+	 * @param {Object} [direction] - Object containing informations about the collision detection
+	 * @param {Hitbox} [thisHitbox] - Own Hitbox, which collided
+	 * @param {Hitbox} [entityHitbox] - Collided Hitbox
+	 * @abstract
+	 */
+	resolveCollision(entity, direction, thisHitbox, entityHitbox){
+		throw new Error('The resolveCollision method is abstract and needs to be implemented.');
+	}
+
+	/**
 	 * Draws this Entity in the game canvas
 	 * @param  {Engine} game - The game object this entity is drawn on
 	 */
 	draw(game){
-		let frame = this.animation.next(Date.now());
+		let frame = this.animation.next(Clock.now());
 
 		// Apply Rendering Effects
 		this.renderEffects(frame);		
