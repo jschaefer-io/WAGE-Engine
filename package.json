@@ -4,14 +4,21 @@
   "description": "Lightweight game engine.",
   "main": "wage.js",
   "scripts": {
-    "dev": "gulp sync",
-    "doc": "jsdoc -d ./doc -r class wage.js"
+    "doc": "jsdoc -d ./doc -r class wage.js",
+    "watch": "npm-watch watch-task",
+    "watch-task": "browser-sync reload & npm run doc",
+    "sync": "browser-sync start --server --files './*' --startPath /test",
+    "dev": "node dev.js"
   },
   "author": "Jannik Schäfer <me@jschaefer.io>",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.23.6",
     "gulp": "^3.9.1",
-    "jsdoc": "^3.5.5"
+    "jsdoc": "^3.5.5",
+    "npm-watch": "^0.3.0"
+  },
+  "watch": {
+    "watch-task": "{class/**/*,wage}.js"
   }
 }
