@@ -4,6 +4,7 @@
  * Creates a Game-Entity, which integrates into the WAGE Workflow
  * @memberof WAGE.Core
  * @abstract
+ * @throws {Error} If this abstract class is instantiated
  */
 class Entity{
 
@@ -17,8 +18,6 @@ class Entity{
 			throw new Error('Effect is an abstract class and can not be instantiated.');
 		}
 
-		this.a = null;
-		this.hitbox = null;
 		this.animation = null;
 		this.animations = {};
 		this.width = 0;
@@ -75,6 +74,14 @@ class Entity{
 	}
 
 	/**
+	 * Updates the animation to the given one
+	 * @param {string} type - Animation name
+	 */
+	setAnimation(type){
+		this.animation = this.animations[type];
+	}
+
+	/**
 	 * Adds a named Animation to this Entity. At least one Animation needs to exist in order for this Entity to be able to spawn
 	 * @param  {string} name - Animation name
 	 * @param  {Animation} ani - Animation object
@@ -107,19 +114,27 @@ class Entity{
 				);
 
 		// Render Hitboxes
-		if (game.debug.hitboxes) {
-			this.hitbox.draw(game, this);
-			if (frame.data.hitbox !== undefined) {
-				if (Array.isArray(frame.data.hitbox)) {
-					for (var i = 0; i < frame.data.hitbox.length; i++) {
-						frame.data.hitbox[i].draw(game, this);
-					}
-				}
-				else{
-					frame.data.hitbox.draw(game, this);
+		if (game.debug.hitboxes && frame.data.hitbox !== undefined) {
+			if (Array.isArray(frame.data.hitbox)) {
+				for (var i = 0; i < frame.data.hitbox.length; i++) {
+					frame.data.hitbox[i].draw(game, this);
 				}
 			}
+			else{
+				frame.data.hitbox.draw(game, this);
+			}
 		}
+	}
+
+	/**
+	 * Custom Physic/Entity Update process called on every game tick
+	 * @param  {int} time - Time passed since last tick
+	 * @param  {Engine} game - Main game object
+	 * @abstract
+	 * @throws {Error} If this method is not implemented
+	 */
+	process(time, game){
+		throw new Error('The process method is abstract and needs to be implemented.');
 	}
 
 	/**
@@ -129,10 +144,9 @@ class Entity{
 	 * @param  {string} ani - animation name
 	 * @see {@link Entity#registerAnimation|registerAnimation}
 	 */
-	spawn(x,y, ani){
+	spawn(x,y){
 		this.x = x;
 		this.y = y;
-		this.animation = this.animations[ani];
 	}
 
 	/**
@@ -141,6 +155,7 @@ class Entity{
 	 * @see  {@link Entity#setHeight|setHeight}
 	 * @see  {@link Entity#registerAnimation|registerAnimation}
 	 * @abstract
+	 * @throws {Error} If this method is not implemented
 	 */
 	init(){
 		throw new Error('The init method is abstract and needs to be implemented.');

@@ -5,6 +5,7 @@
  * @memberof WAGE.API
  * @hideconstructor
  * @abstract
+ * @throws {Error} If this abstract class is instantiated
  */
 class Clock{
 
@@ -23,6 +24,7 @@ class Clock{
 	 */
 	static tick(){
 		if (this.lastTick === undefined) {
+			this.lastTick = Clock.now();
 			return 0;
 		}
 		else{

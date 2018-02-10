@@ -6,6 +6,7 @@ import Clock from './class.clock.js';
  * Creates an Effect-Handler, which integrates into the WAGE Workflow
  * @memberof WAGE.Core
  * @abstract
+ * @throws {Error} If this abstract class is instantiated
  */
 class Effect{
 
@@ -61,6 +62,7 @@ class Effect{
 	/**
 	 * True if this effect should be executed on the render-process
 	 * @abstract
+	 * @throws {Error} If this method is not implemented
 	 * @return {Boolean}
 	 */
 	onRender(){
@@ -70,6 +72,7 @@ class Effect{
 	/**
 	 * True if this effect should be executed on the computation-process
 	 * @abstract
+	 * @throws {Error} If this method is not implemented
 	 * @return {Boolean}
 	 */
 	onProcess(){
@@ -105,6 +108,7 @@ class Effect{
 	/**
 	 * Custom operations to be executed on each tick.
 	 * @abstract
+	 * @throws {Error} If this method is not implemented
 	 * @param  {Entity} entity - Entity this effect is applied to
 	 * @param  {Object} frame - Current frame object
 	 */
@@ -114,10 +118,14 @@ class Effect{
 
 	/**
 	 * Custom reset if the duration ends. Is meant to reset modifications on the entity or frame object.
+	 * @abstract
+	 * @throws {Error} If this method is not implemented
 	 * @param  {Entity} entity - Entity this effect is applied to
 	 * @param  {Object} frame - Current frame object
 	 */
-	reset(entity, frame){};
+	reset(entity, frame){
+		throw new Error('The reset method is abstract and needs to be implemented.');
+	};
 }
 
 export default Effect;

@@ -5,6 +5,7 @@
  * @memberof WAGE.API
  * @hideconstructor
  * @abstract
+ * @throws {Error} If this abstract class is instantiated
  */
 class Curve{
 

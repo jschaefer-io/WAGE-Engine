@@ -18,8 +18,7 @@ import Texture from './class/class.texture.js';
 import Input from './class/class.input.js';
 import Queue from './class/class.queue.js';
 
-
-window.WAGE = {
+const WAGE = {
 
 	Engine,
 
@@ -53,3 +52,4 @@ window.WAGE = {
 		Queue
 	}
 };
+export default WAGE;

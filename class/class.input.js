@@ -8,6 +8,7 @@ import Queue from './class.queue.js';
  * @augments {WAGE.Helper.Queue}
  */
 class Input extends Queue{
+	
 	/**
 	 * Adds an Event to the Inputdispatcher
 	 * @param {string} type - Event type

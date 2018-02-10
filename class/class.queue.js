@@ -27,7 +27,7 @@ class Queue{
 	 * @return {mixed}
 	 */
 	remove(){
-		return this.queue.splice(0,1);
+		return this.queue.splice(0,1)[0];
 	}
 
 	/**
