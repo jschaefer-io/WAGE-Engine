@@ -5,6 +5,7 @@
  * @namespace WAGE
  */
 
+// Base
 import Animation from './class/class.animation.js';
 import Clock from './class/class.clock.js';
 import Curve from './class/class.curve.js';
@@ -17,6 +18,9 @@ import TexLoader from './class/class.texloader.js';
 import Texture from './class/class.texture.js';
 import Input from './class/class.input.js';
 import Queue from './class/class.queue.js';
+
+// Libs
+import EaseVector from './lib/class.easevector.js';
 
 const WAGE = {
 
@@ -50,6 +54,20 @@ const WAGE = {
 	 */
 	Helper: {
 		Queue
+	},
+
+	/**
+	 * Library of often used Patterns
+	 * @namespace WAGE.Library
+	 */
+	Library: {
+		/**
+		 * Effect Library
+		 * @namespace WAGE.Library.Effects
+		 */
+		Effects: {
+			EaseVector
+		}
 	}
 };
 export default WAGE;

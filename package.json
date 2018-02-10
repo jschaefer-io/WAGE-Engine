@@ -4,7 +4,7 @@
   "description": "Lightweight game engine.",
   "main": "wage.js",
   "scripts": {
-    "doc": "jsdoc -d ./doc -r class wage.js",
+    "doc": "jsdoc -d ./doc -r class wage.js lib",
     "watch": "npm-watch watch-task",
     "watch-task": "browser-sync reload & npm run doc",
     "sync": "browser-sync start --server --files './*' --startPath /test",
@@ -19,6 +19,6 @@
     "npm-watch": "^0.3.0"
   },
   "watch": {
-    "watch-task": "{class/**/*,wage}.js"
+    "watch-task": "{class/**/*,lib/**/*,wage}.js"
   }
 }
