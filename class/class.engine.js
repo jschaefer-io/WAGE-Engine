@@ -1,7 +1,7 @@
+'use strict';
+
 import Input from './class.input.js';
 import Clock from './class.clock.js';
-
-'use strict';
 
 /**
  * Main Engine Handler
@@ -85,13 +85,20 @@ class Engine{
 	 * @param  {int} time - Time passed since last Tick
 	 */
 	processFrame(time){
+
+		// Input Dispatch
 		if (this.input) {
 			this.input.forEach((e)=>{
 				this.inputHandler(e, e.type);
 			});
 		}
+
+		// Process
 		this.entities.forEach((entity)=>{
+			entity.processEffects();
 			entity.process(time, this);
+			entity.dispatchVector(time);
+		});
 		});
 	}
 
@@ -119,7 +126,7 @@ class Engine{
 	 */
 	clearCanvas(){
 		this.ctx.beginPath();
-		this.ctx.clearRect(0, 0, 1000, 1000);
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	/**

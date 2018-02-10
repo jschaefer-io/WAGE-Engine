@@ -30,6 +30,7 @@ class Effect{
 
 	/**
 	 * Calls the in the constructor given callback when called or after the Effect is beeing removed
+	 * @access private
 	 */
 	done(){
 		this.callback(this);
@@ -90,9 +91,10 @@ class Effect{
 	/**
 	 * Kicks off one tick of the effect. If the duration is set and exired, the effect will auto delete
 	 * @param  {Entity} entity - Entity this effect is applied to
-	 * @param  {Object} frame - Current frame object
+	 * @param  {Object} [frame] - Current frame object
+	 * @access private
 	 */
-	tick(entity, frame){
+	tick(entity, frame = false){
 		this.prepare();
 		if (this.duration) {
 			this.prepareDuration();
@@ -110,9 +112,9 @@ class Effect{
 	 * @abstract
 	 * @throws {Error} If this method is not implemented
 	 * @param  {Entity} entity - Entity this effect is applied to
-	 * @param  {Object} frame - Current frame object
+	 * @param  {Object} [frame] - Current frame object
 	 */
-	dispatch(entity, frame){
+	dispatch(entity, frame = false){
 		throw new Error('The dispatch method is abstract and needs to be implemented.');
 	}
 
@@ -121,9 +123,9 @@ class Effect{
 	 * @abstract
 	 * @throws {Error} If this method is not implemented
 	 * @param  {Entity} entity - Entity this effect is applied to
-	 * @param  {Object} frame - Current frame object
+	 * @param  {Object} [frame] - Current frame object
 	 */
-	reset(entity, frame){
+	reset(entity, frame = false){
 		throw new Error('The reset method is abstract and needs to be implemented.');
 	};
 }

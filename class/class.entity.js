@@ -24,11 +24,14 @@ class Entity{
 		this.height = 0;
 		this.x = 0;
 		this.y = 0;
+
 		this.init();
 		this.effects = [];
+		this.vector = [0,0,0,0];
 	}
 
 	/**
+	 * Adds an effect to this entity
 	 * @param {Effect} ef - the Effect to apply to this Entity
 	 * @param {int} delay - Time to wait until the effect applies
 	 * @return {Promise} Promise of the effect application allowing for followup functions using .then()
@@ -43,7 +46,47 @@ class Entity{
 	}
 
 	/**
-	 * Applied alls rendering affects to the entity
+	 * Removes the given effect from this entity
+	 * @param  {string} type - Effect Class
+	 * @return {Boolean} Returns true if the first occurance of this effect has been successful
+	 */
+	removeEffect(type){
+		this.effects.forEach((ef)=>{
+			if (ef.constructor === type) {
+				ef.delete();
+				return true;
+			}
+		});
+		return false;
+	}
+
+	/**
+	 * Removes all occurances of the given effect
+	 * @param  {string} type - Effect Class
+	 */
+	removeAllEffect(type){
+		while(this.hasEffect(type)){
+			this.removeEffect();
+		}
+	}
+
+
+	/**
+	 * Checks if this entity has the given effect type
+	 * @param  {class}  type - Effect Class
+	 * @return {Boolean} Returns true if the given effect type currently applies to this entity
+	 */
+	hasEffect(type){
+		this.effects.forEach((ef)=>{
+			if (ef.constructor === type) {
+				return true;
+			}
+		});
+		return false;
+	}
+
+	/**
+	 * Applied all rendering affects to the entity
 	 * @param  {Object} frame - Current frame object
 	 */
 	renderEffects(frame){
@@ -52,6 +95,25 @@ class Entity{
 				el.tick(this, frame);	
 			}
 		});
+		this.cleanupEffects();
+	}
+
+	/**
+	 * Applied all processing affects to the entity
+	 */
+	processEffects(){
+		this.effects.forEach((el)=>{
+			if (el.onProcess()) {
+				el.tick(this);	
+			}
+		});
+		this.cleanupEffects();
+	}
+
+	/**
+	 * CleanupEffects
+	 */
+	cleanupEffects(){
 		this.effects = this.effects.filter((el)=>{
 			return !el.remove;
 		});
@@ -114,7 +176,7 @@ class Entity{
 				);
 
 		// Render Hitboxes
-		if (game.debug.hitboxes && frame.data.hitbox !== undefined) {
+		if (game.debug.hitboxes && frame.data.hitbox) {
 			if (Array.isArray(frame.data.hitbox)) {
 				for (var i = 0; i < frame.data.hitbox.length; i++) {
 					frame.data.hitbox[i].draw(game, this);
@@ -135,6 +197,16 @@ class Entity{
 	 */
 	process(time, game){
 		throw new Error('The process method is abstract and needs to be implemented.');
+	}
+
+	/**
+	 * Executes all vectors onto this entities x and y coordinates
+	 * @param  {int} time - Time passed since last tick
+	 * @access private
+	 */
+	dispatchVector(time){
+		this.x += time * (this.vector[1] - this.vector[3]);
+		this.y += time * (this.vector[0] - this.vector[2]);
 	}
 
 	/**

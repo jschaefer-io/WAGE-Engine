@@ -84,7 +84,8 @@ class Animation{
 				y: 0
 			},
 			height: false,
-			width: false
+			width: false,
+			hitbox: false
 		}, data);
 		this.frames.push({
 			data: data,
