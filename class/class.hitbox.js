@@ -27,7 +27,7 @@ class Hitbox{
 	 * @param  {Entity} entity1 - First entity
 	 * @param  {Hitbox} hitbox2 - Second hitbox
 	 * @param  {Entity} entity2 - Second entity
-	 * @return {Object} Object containing collision data // 0 Top, 1 Right, 2 Bottom, 3 Left
+	 * @return {Object} Object containing collision data
 	 */
 	static checkCollisionDirection(hitbox1, entity1, hitbox2, entity2){
 		let x1 = (entity1.x + hitbox1.offset.x) + hitbox1.offset.x,

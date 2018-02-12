@@ -1,11 +1,11 @@
 'use strict';
 
 /**
- * Collection API for entities for the WAGE Workflow
+ * Collection API for objects and Classes for the WAGE Workflow
  * @memberof WAGE.API
  * @hideconstructor
  */
-class EntityCollector{
+class Collector{
 
 	/**
 	 * Constructs the Entity Collector
@@ -18,9 +18,9 @@ class EntityCollector{
 	/**
 	 * Adds a new entity template to the collector
 	 * @param  {string} name - The entitys name
-	 * @param  {class} obj - The entitys callable class
+	 * @param  {Class|Object} obj - The entitys class or Object
 	 */
-	new(name, obj){
+	add(name, obj){
 		this[name] = obj;
 		this._count++;
 		this._names.push(name);
@@ -47,4 +47,4 @@ class EntityCollector{
 	}
 }
 
-export default EntityCollector;
+export default Collector;

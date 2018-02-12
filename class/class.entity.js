@@ -89,7 +89,7 @@ class Entity{
 	}
 
 	/**
-	 * Applied all rendering affects to the entity
+	 * Execute all effects activated for the rendering process
 	 * @param  {Object} frame - Current frame object
 	 */
 	renderEffects(frame){
@@ -102,7 +102,7 @@ class Entity{
 	}
 
 	/**
-	 * Applied all processing affects to the entity
+	 * Execute all effects activated for the physics and update process
 	 */
 	processEffects(){
 		this.effects.forEach((el)=>{
@@ -114,7 +114,7 @@ class Entity{
 	}
 
 	/**
-	 * CleanupEffects
+	 * Remove all effects, which are deactivated from this entity
 	 */
 	cleanupEffects(){
 		this.effects = this.effects.filter((el)=>{
@@ -209,7 +209,7 @@ class Entity{
 		this.renderEffects(frame);		
 		
 		// Render current Sprite
-		game.draw(	this.animation.texture.img,
+		game.draw(	this.animation.texture,
 					this.x + frame.data.offset.x,
 					this.y + frame.data.offset.y,
 					(frame.data.width)?frame.data.width:this.width,

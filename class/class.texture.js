@@ -3,21 +3,19 @@
 /**
  * Creates a Texture, which integrates into the WAGE Workflow
  * @memberof WAGE.Core
+ * @extends {Image}
  */
-class Texture{
+class Texture extends Image{
 
 	/**
 	 * Constructs the Texture
 	 * @param  {string} url - Link to the texture image
-	 * @param  {TexLoader} [loader] - Loader to register this Texture to
+	 * @param {Boolean} [load=true] - False if the Texture should not be loaded on construction
 	 */
-	constructor(url, loader = null){
-		this.img = new Image();
-		this.url = url;
-		if (loader !== null) {
-			loader.addTexture(this);
-		}
-		else{
+	constructor(url, load = true){
+		super();
+		this.loadUrl = url;
+		if (load) {
 			this.load();
 		}		
 	}
@@ -26,9 +24,9 @@ class Texture{
 	 * Starts loading the Texture asynchronously
 	 * @param  {Function} [callback] - Function to call after Texture has been loaded
 	 */
-	load(callback){
-		this.img.addEventListener('load', callback);
-		this.img.src = this.url;
+	load(callback = function(){}){
+		this.addEventListener('load', callback);
+		this.src = this.loadUrl;
 	}
 }
 

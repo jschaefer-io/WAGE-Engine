@@ -11,10 +11,10 @@ import Clock from './class/class.clock.js';
 import Curve from './class/class.curve.js';
 import Effect from './class/class.effect.js';
 import Engine from './class/class.engine.js';
-import EntityCollector from './class/class.entitycollector.js';
+import Collector from './class/class.collector.js';
 import Entity from './class/class.entity.js';
 import Hitbox from './class/class.hitbox.js';
-import TexLoader from './class/class.texloader.js';
+import Loader from './class/class.loader.js';
 import Texture from './class/class.texture.js';
 import Input from './class/class.input.js';
 import Queue from './class/class.queue.js';
@@ -45,8 +45,8 @@ const WAGE = {
 	API: {
 		Clock,
 		Curve,
-		EntityCollector,
-		TexLoader
+		Collector,
+		Loader
 	},
 	/**
 	 * General Helpers of the WAGE-Engine
