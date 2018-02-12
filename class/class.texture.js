@@ -1,9 +1,16 @@
 'use strict';
 
 /**
+ * The HTMLAudioElement interface provides access to the properties of <audio> elements, as well as methods to manipulate them.
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement}
+ * @external Image
+ */
+
+
+/**
  * Creates a Texture, which integrates into the WAGE Workflow
  * @memberof WAGE.Core
- * @extends {Image}
+ * @extends {external:Image}
  */
 class Texture extends Image{
 

@@ -16,6 +16,7 @@ import Entity from './class/class.entity.js';
 import Hitbox from './class/class.hitbox.js';
 import Loader from './class/class.loader.js';
 import Texture from './class/class.texture.js';
+import Sound from './class/class.sound.js';
 import Input from './class/class.input.js';
 import Queue from './class/class.queue.js';
 
@@ -34,6 +35,7 @@ const WAGE = {
 		Animation,
 		Entity,
 		Hitbox,
+		Sound,
 		Texture,
 		Input,
 		Effect

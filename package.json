@@ -4,7 +4,7 @@
   "description": "Lightweight game engine.",
   "main": "wage.js",
   "scripts": {
-    "doc": "jsdoc -d ./doc -r class wage.js lib",
+    "doc": "jsdoc -t node_modules/minami/ -d ./doc -r class wage.js lib",
     "watch": "npm-watch watch-task",
     "watch-task": "browser-sync reload & npm run doc",
     "sync": "browser-sync start --server --files './*' --startPath /test",
@@ -16,6 +16,7 @@
     "browser-sync": "^2.23.6",
     "gulp": "^3.9.1",
     "jsdoc": "^3.5.5",
+    "minami": "^1.2.3",
     "npm-watch": "^0.3.0"
   },
   "watch": {
