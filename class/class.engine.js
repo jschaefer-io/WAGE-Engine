@@ -23,6 +23,10 @@ class Engine{
 		this.debug = {
 			hitboxes: false
 		}
+
+		this.ctx.webkitImageSmoothingEnabled = false;
+		this.ctx.mozImageSmoothingEnabled = false;
+		this.ctx.imageSmoothingEnabled = false;
 		// this.ctx.globalCompositeOperation = 'multiply';
 		// 
 		this.input = false
@@ -137,22 +141,17 @@ class Engine{
 	/**
 	 * Draws an image on the canvas
 	 * @param  {Image} img - The image to draw
+	 * @param  {number} [sx] - the cropped x-coordinate
+	 * @param  {number} [sy] - the cropped y-coordinate
+	 * @param  {int} [sw] - the cropped image parts width
+	 * @param  {int} [sh] - the cropped image parts height
 	 * @param  {number} x - the x-coordinate to draw
 	 * @param  {number} y - the y-coordinate to draw
 	 * @param  {int} w - the images width
 	 * @param  {int} h - the images height
-	 * @param  {number} [cx] - the cropped x-coordinate
-	 * @param  {number} [cy] - the cropped y-coordinate
-	 * @param  {int} [cw] - the cropped image parts width
-	 * @param  {int} [ch] - the cropped image parts height
 	 */
-	draw(img, x, y, w, h, cx = undefined, cy = undefined, cw = undefined, ch = undefined){
-		if (cx !== undefined) {
-			this.ctx.drawImage(img, cx, cy, cw, ch, x, y, w, h);
-		}
-		else{
-			this.ctx.drawImage(img, x, y, w, h);
-		}
+	draw(img, sx, sy, sw, sh, x, y, w, h,){
+		this.ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
 	}
 
 	/**

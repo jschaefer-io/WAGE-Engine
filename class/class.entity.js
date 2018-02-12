@@ -168,7 +168,7 @@ class Entity{
 		let now = Clock.now(),
 			selfBox = this.animation.next(now).data.hitbox,
 			compBox,
-			direction,
+			result,
 			collisions = [];
 		list.forEach((entity, index)=>{
 			if ((self === false || self !== index) && done[index] === undefined) {
@@ -176,9 +176,9 @@ class Entity{
 				if (Hitbox.checkCollision(selfBox, this, compBox, entity)) {
 				   	collisions.push(index);
 
-				   	direction = Hitbox.checkCollisionDirection(selfBox, this, compBox, entity);
-				   	this.resolveCollision(entity, direction.origin, selfBox, compBox);
-					entity.resolveCollision(this, direction.target, compBox, selfBox);
+				   	result = Hitbox.checkCollisionDirection(selfBox, this, compBox, entity);
+				   	this.resolveCollision(entity, result.directions.target, result.calculations, selfBox, compBox);
+					entity.resolveCollision(this, result.directions.origin, result.calculations, compBox, selfBox);
 					
 				}		
 			}
@@ -190,11 +190,12 @@ class Entity{
 	 * Custom Collision resolve - Resolves the collision with another entity.
 	 * @param  {Entity} entity - Entity which collided with the current Entity
 	 * @param {Object} [direction] - Object containing informations about the collision detection
+	 * @param {Array} [calculations] - Array containing the collision distances. 1 Top, 2 Right, 3 Bottom, 4 Top
 	 * @param {Hitbox} [thisHitbox] - Own Hitbox, which collided
 	 * @param {Hitbox} [entityHitbox] - Collided Hitbox
 	 * @abstract
 	 */
-	resolveCollision(entity, direction, thisHitbox, entityHitbox){
+	resolveCollision(entity, direction, calculations, thisHitbox, entityHitbox){
 		throw new Error('The resolveCollision method is abstract and needs to be implemented.');
 	}
 
@@ -210,12 +211,12 @@ class Entity{
 		
 		// Render current Sprite
 		game.draw(	this.animation.texture,
-					this.x + frame.data.offset.x,
-					this.y + frame.data.offset.y,
-					(frame.data.width)?frame.data.width:this.width,
-					(frame.data.height)?frame.data.height:this.height,
 					frame.data.x,
 					frame.data.y,
+					frame.data.width,
+					frame.data.height,					
+					this.x + frame.data.offset.x,
+					this.y + frame.data.offset.y,
 					this.width,
 					this.height
 				);

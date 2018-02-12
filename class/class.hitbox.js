@@ -30,10 +30,10 @@ class Hitbox{
 	 * @return {Object} Object containing collision data
 	 */
 	static checkCollisionDirection(hitbox1, entity1, hitbox2, entity2){
-		let x1 = (entity1.x + hitbox1.offset.x) + hitbox1.offset.x,
-			y1 = (entity1.y + hitbox1.offset.y) + hitbox1.offset.y,
-			x2 = (entity2.x + hitbox2.offset.x) + hitbox2.offset.x,
-			y2 = (entity2.y + hitbox2.offset.y) + hitbox2.offset.y;
+		let x1 = entity1.x + hitbox1.offset.x,
+			y1 = entity1.y + hitbox1.offset.y,
+			x2 = entity2.x + hitbox2.offset.x,
+			y2 = entity2.y + hitbox2.offset.y;
 
 		let vector1 = [entity1.vector[1] - entity1.vector[3], entity1.vector[0] - entity1.vector[2]],
 			vector2 = [entity2.vector[1] - entity2.vector[3], entity2.vector[1] - entity2.vector[3]];
@@ -55,33 +55,43 @@ class Hitbox{
 				}
 			},
 			undef = true;
-		if (Math.abs(x1 - x2) > Math.abs(x1 + entity1.width - x2)) {
-			collisions.origin.left = true;
-			collisions.target.right = true;
-			undef = false;
-		}
-		else if (Math.abs(x2 - x1) > Math.abs(x2 + entity2.width - x1)) {
-			collisions.origin.right = true;
-			collisions.target.left = true;			
-			undef = false;
-		}
-		if (Math.abs(y1 - y2) > Math.abs(y1 + entity1.height - y2)) {
-			collisions.origin.top = true;
-			collisions.target.bottom = true;
-			undef = false;
-		}
-		else if (Math.abs(y2 - y1) > Math.abs(y2 + entity2.height - y1)) {
-			collisions.origin.bottom = true;
-			collisions.target.top = true;			
-			undef = false;
-		}
+
+		let calculations = [
+				(y1+hitbox1.height) - (y2), // TOP
+				(x2+hitbox2.width) - (x1), 	// RIGHT
+				(y2+hitbox2.height) - (y1), // BOTTOM
+				(x1+hitbox1.width) - (x2), 	// LEFT
+			],
+			direction = calculations.indexOf(Math.min(...calculations));
 
 
+		switch(direction){
+			case 0:
+				collisions.origin.top = true;
+				collisions.target.bottom = true;
+				undef = false;
+				break;
+			case 1:
+				collisions.origin.right = true;
+				collisions.target.left = true;			
+				undef = false;
+				break;
+			case 2:
+				collisions.origin.bottom = true;
+				collisions.target.top = true;			
+				undef = false;
+				break;
+			case 3:
+				collisions.origin.left = true;
+				collisions.target.right = true;
+				undef = false;
+				break;
+		}
 		if (undef) {
 			collisions.origin.undefined = true;
 			collisions.target.undefined = true;
 		}
-		return collisions;	
+		return {directions: collisions, calculations: calculations};	
 	}
 
 	/**
