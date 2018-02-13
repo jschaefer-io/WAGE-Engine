@@ -7,17 +7,23 @@ import Hitbox from './class.hitbox.js';
  * Creates a Game-Entity, which integrates into the WAGE Workflow
  * @memberof WAGE.Core
  * @abstract
+ * @hideconstructor
  * @throws {Error} If this abstract class is instantiated
  */
 class Entity{
 
+	/**
+	 * Returns the current Class. Use this for comparisons
+	 * @return {class} Class object
+	 */
+	getType(){
+		return this.constructor;
+	}
 
 	/**
 	 * Creates a new Entity
-	 * @param  {int} width - Entitys width
-	 * @param  {int} height - Entity height
 	 */
-	constructor(width, height){
+	constructor(){
 		if (this.constructor === Entity) {
 			throw new Error('Effect is an abstract class and can not be instantiated.');
 		}
@@ -97,9 +103,9 @@ class Entity{
 
 	/**
 	 * Execute all effects activated for the rendering process
-	 * @param  {Object} frame - Current frame object
 	 */
-	renderEffects(frame){
+	renderEffects(){
+		let frame = this.animation.next(Clock.now());
 		this.effects.forEach((el)=>{
 			if (el.onRender()) {
 				el.tick(this, frame);	
@@ -176,18 +182,29 @@ class Entity{
 			selfBox = this.animation.next(now).data.hitbox,
 			compBox,
 			result,
-			collisions = [];
+			collisions = [],
+			collide;
+		if (!Array.isArray(selfBox)) {
+			selfBox = [selfBox];
+		}
 		list.forEach((entity, index)=>{
-			if ((self === false || self !== index) && done[index] === undefined) {
-				compBox = entity.animation.next(now).data.hitbox;
-				if (Hitbox.checkCollision(selfBox, this, compBox, entity)) {
-				   	collisions.push(index);
-
-				   	result = Hitbox.checkCollisionDirection(selfBox, this, compBox, entity);
-				   	this.resolveCollision(entity, result.directions.target, result.calculations, selfBox, compBox);
-					entity.resolveCollision(this, result.directions.origin, result.calculations, compBox, selfBox);
-					
-				}		
+			collide = false;
+			compBox = entity.animation.next(now).data.hitbox;
+			if (!Array.isArray(compBox)) {
+				compBox = [compBox];
+			}
+			selfBox.forEach((sBox)=>{
+				compBox.forEach((cBox)=>{
+					if (Hitbox.checkCollision(sBox, this, cBox, entity)) {
+						result = Hitbox.checkCollisionDirection(sBox, this, cBox, entity);
+						this.resolveCollision(entity, result.directions.target, result.calculations, sBox, cBox);
+						entity.resolveCollision(this, result.directions.origin, result.calculations, cBox, sBox);
+						collide = true;
+					}
+				});
+			});
+			if (collide) {
+				collisions.push(index);
 			}
 		});
 		return collisions;
@@ -209,26 +226,30 @@ class Entity{
 	/**
 	 * Draws this Entity in the game canvas
 	 * @param  {Engine} game - The game object this entity is drawn on
+	 * @param {number} [offsetX] - General Draw offseton the X-Axis
+	 * @param {number} [offsetY] - General Draw offset on the Y-Axis
 	 */
-	draw(game){
-		let frame = this.animation.next(Clock.now());
-
-		// Apply Rendering Effects
-		this.renderEffects(frame);		
-		
-		// Render current Sprite
+	draw(game, offsetX = 0, offsetY = 0){
+		let frame = this.animation.next(Clock.now());	
 		game.draw(	this.animation.texture,
 					frame.data.x,
 					frame.data.y,
 					frame.data.width,
 					frame.data.height,					
-					this.x + frame.data.offset.x,
-					this.y + frame.data.offset.y,
+					this.x + frame.data.offset.x + offsetX,
+					this.y + frame.data.offset.y + offsetY,
 					this.width,
 					this.height
-				);
-
-		// Render Hitboxes
+				);		
+	}
+	/**
+	 * Draws this Entitys Hitboxes in the game canvas
+	 * @param  {Engine} game - The game object this entity is drawn on
+	 * @param {number} [offsetX] - General Draw offseton the X-Axis
+	 * @param {number} [offsetY] - General Draw offset on the Y-Axis
+	 */
+	drawHitboxes(game, offsetX, offsetY){
+		let frame = this.animation.next(Clock.now());
 		if (game.debug.hitboxes && frame.data.hitbox) {
 			if (Array.isArray(frame.data.hitbox)) {
 				for (var i = 0; i < frame.data.hitbox.length; i++) {
@@ -236,7 +257,7 @@ class Entity{
 				}
 			}
 			else{
-				frame.data.hitbox.draw(game, this);
+				frame.data.hitbox.draw(game, this, offsetX, offsetY);
 			}
 		}
 	}

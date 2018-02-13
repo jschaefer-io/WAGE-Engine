@@ -114,12 +114,11 @@ class Hitbox{
 	 * Draws the hitbox on the given game canvas
 	 * @param  {Engine} game - The game object
 	 * @param  {Entity} parent - The entity this hitbox applies to
+	 * @param {number} [offsetX] - General Draw offseton the X-Axis
+	 * @param {number} [offsetY] - General Draw offset on the Y-Axis
 	 */
-	draw(game, parent){
-		game.ctx.beginPath();
-		game.ctx.rect(parent.x + this.offset.x, parent.y + this.offset.y, this.width , this.height);
-		game.ctx.strokeStyle="#FF0000";
-		game.ctx.stroke();
+	draw(game, parent, offsetX = 0, offsetY = 0){
+		game.drawRect(parent.x + this.offset.x + offsetX, parent.y + this.offset.y + offsetY, this.width , this.height)
 	}
 }
 

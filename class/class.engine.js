@@ -35,7 +35,7 @@ class Engine{
 
 		this.viewport = {
 			x: 0,
-			y: 200
+			y: 0
 		}
 	}
 
@@ -197,7 +197,11 @@ class Engine{
 	renderFrame(time){
 		this.clearCanvas();
 		this.entities.forEach((entity)=>{
+			entity.renderEffects();
 			entity.draw(this);
+			if (this.debug.hitboxes) {
+				entity.drawHitboxes(this)
+			}
 		});
 	}
 
@@ -230,9 +234,27 @@ class Engine{
 	 * @param  {int} h - the images height
 	 */
 	draw(img, sx, sy, sw, sh, x, y, w, h,){
+		if (img) {
+			x -= this.viewport.x;
+			y -= this.viewport.y;
+			this.ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+		}
+	}
+
+	/**
+	 * Draws a rectangle on the canvas
+	 * @param  {number} x - the x-coordinate
+	 * @param  {number} y - the y-coordinate
+	 * @param  {int} width - Rectangle width
+	 * @param  {int} height - Rectangle heigh
+	 */
+	drawRect(x, y, width, height){
 		x -= this.viewport.x;
 		y -= this.viewport.y;
-		this.ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+		this.ctx.beginPath();
+		this.ctx.rect(x, y, width, height);
+		this.ctx.strokeStyle="#FF0000";
+		this.ctx.stroke();
 	}
 
 	/**

@@ -22,7 +22,7 @@ class Texture extends Image{
 	constructor(url, load = true){
 		super();
 		this.loadUrl = url;
-		if (load) {
+		if (load && this.loadUrl) {
 			this.load();
 		}		
 	}
@@ -32,8 +32,13 @@ class Texture extends Image{
 	 * @param  {Function} [callback] - Function to call after Texture has been loaded
 	 */
 	load(callback = function(){}){
-		this.addEventListener('load', callback);
-		this.src = this.loadUrl;
+		if (this.loadUrl) {
+			this.addEventListener('load', callback);
+			this.src = this.loadUrl;
+		}
+		else{
+			callback();
+		}
 	}
 }
 
