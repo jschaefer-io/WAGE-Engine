@@ -25,6 +25,8 @@ import EaseVector from './lib/class.easevector.js';
 import Gravity from './lib/class.gravity.js';
 import Callback from './lib/class.callback.js';
 import Collisions from './lib/class.collisions.js';
+import Group from './lib/class.group.js';
+
 
 const WAGE = {
 
@@ -68,6 +70,7 @@ const WAGE = {
 	Library: {
 		
 		Collisions,
+		Group,
 		
 
 		/**
