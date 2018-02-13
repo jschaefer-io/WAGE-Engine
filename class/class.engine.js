@@ -72,6 +72,7 @@ class Engine{
 
 	/**
 	 * Main Process Loop, get called on every Frame
+	 * @access private
 	 */
 	loop(){
 		if (this.running) {
@@ -87,6 +88,7 @@ class Engine{
 	/**
 	 * Processes the Physiks and Entity-Updates on every Tick
 	 * @param  {int} time - Time passed since last Tick
+	 * @access private
 	 */
 	processFrame(time){
 
@@ -109,11 +111,16 @@ class Engine{
 		this.entities.forEach((entity, index)=>{
 			collisions[index] = entity.checkCollisions(this.entities, index, collisions);
 		});
+
+		this.entities.forEach((entity)=>{
+			entity.afterProcess(time, this);
+		});
 	}
 
 	/**
 	 * Processes the Rendering for every Entity on every Tick
 	 * @param  {int} time - Time passed since last Tick
+	 * @access private
 	 */
 	renderFrame(time){
 		this.clearCanvas();

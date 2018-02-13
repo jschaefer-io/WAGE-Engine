@@ -14,8 +14,9 @@ class Effect{
 	 * Construct the Texture
 	 * @param  {int} [duration] - Time this effect will be applied
 	 * @param {Function} [callback] - Function called, when the done() method is called or when the Effect is flagged as removed
+	 * @param {string} id - A custom id for this effect
 	 */
-	constructor(duration = 0, callback = ()=>{}){
+	constructor(duration = 0, callback = false, id = false){
 		if (this.constructor === Effect) {
 			throw new Error('Effect is an abstract class and can not be instantiated.');
 		}
@@ -26,6 +27,7 @@ class Effect{
 		this.timings = {};
 		this.start = undefined;
 		this.callback = callback;
+		this.id = id;
 	}
 
 	/**
@@ -33,7 +35,9 @@ class Effect{
 	 * @access private
 	 */
 	done(){
-		this.callback(this);
+		if (this.callback) {
+			this.callback(this);
+		}
 	}
 
 	/**

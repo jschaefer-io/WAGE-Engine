@@ -11,6 +11,7 @@ import Hitbox from './class.hitbox.js';
  */
 class Entity{
 
+
 	/**
 	 * Creates a new Entity
 	 * @param  {int} width - Entitys width
@@ -28,9 +29,10 @@ class Entity{
 		this.x = 0;
 		this.y = 0;
 
-		this.init();
 		this.effects = [];
 		this.vector = [0,0,0,0];
+
+		this.init();
 	}
 
 	/**
@@ -51,11 +53,13 @@ class Entity{
 	/**
 	 * Removes the given effect from this entity
 	 * @param  {string} type - Effect Class
+	 * @param {string} [id] - a custom id string given to the effect. Regex is allowed
 	 * @return {Boolean} Returns true if the first occurance of this effect has been successful
 	 */
-	removeEffect(type){
+	removeEffect(type, id = '.*'){
+		let regex = new RegExp(id);
 		this.effects.forEach((ef)=>{
-			if (ef.constructor === type) {
+			if (ef.constructor === type && regex.test(ef.id)) {
 				ef.delete();
 				return true;
 			}
@@ -66,10 +70,11 @@ class Entity{
 	/**
 	 * Removes all occurances of the given effect
 	 * @param  {string} type - Effect Class
+	 * @param {string} [id] - a custom id string given to the effect. Regex is allowed
 	 */
-	removeAllEffect(type){
-		while(this.hasEffect(type)){
-			this.removeEffect();
+	removeAllEffect(type, id = '.*'){
+		while(this.hasEffect(type, id)){
+			this.removeEffect(type, id);
 		}
 	}
 
@@ -77,11 +82,13 @@ class Entity{
 	/**
 	 * Checks if this entity has the given effect type
 	 * @param  {class}  type - Effect Class
+	 * @param {string} [id] - a custom id string given to the effect. Regex is allowed
 	 * @return {Boolean} Returns true if the given effect type currently applies to this entity
 	 */
-	hasEffect(type){
+	hasEffect(type, id = '.*'){
+		let regex = new RegExp(id);
 		this.effects.forEach((ef)=>{
-			if (ef.constructor === type) {
+			if (ef.constructor === type && regex.test(ef.id)) {
 				return true;
 			}
 		});
@@ -253,6 +260,16 @@ class Entity{
 	dispatchVector(time){
 		this.x += time * (this.vector[1] - this.vector[3]);
 		this.y += time * (this.vector[0] - this.vector[2]);
+	}
+
+	/**
+	 * Custom Update function, which gets called after the physic/update process is done completly
+	 * @param  {int} time - Time passed since last tick
+	 * @param  {Engine} game - Main game object
+	 * @return {void}
+	 */
+	afterProcess(time, game){
+		return;
 	}
 
 	/**
