@@ -37,6 +37,7 @@ class Animation{
 		this.texture = texture;
 		this.frames = [];
 		this.count = 0;
+		this.current = this.count;
 		this.tick = 0;
 		
 		this.mode = Animation.NORMAL;
@@ -44,6 +45,7 @@ class Animation{
 		
 		this.direction = true;
 		this.loops = 0;
+		this.done = false;
 	}
 
 	/**
@@ -53,6 +55,7 @@ class Animation{
 	 */
 	setMode(mode){
 		this.mode = mode;
+		this.reset();
 	}
 
 	/**
@@ -67,7 +70,20 @@ class Animation{
 	 * Resets the Animation to the first Position
 	 */
 	reset(){
-		this.count = 0;
+		switch(this.mode){
+			case Animation.NORMAL:
+				this.count = 0;
+				break;
+			case Animation.REVERSE:
+				this.count = this.frames.length -1
+				break;
+			case Animation.ALTERNATE:
+				this.count = 0;
+				break;
+		}
+		this.done = false;
+		this.loops = 0;
+		this.tick = 0;		
 	}
 
 	/**
@@ -83,14 +99,19 @@ class Animation{
 				x: 0,
 				y: 0
 			},
-			height: false,
-			width: false,
+			height: 0,
+			width: 0,
 			hitbox: false
 		}, data);
 		this.frames.push({
 			data: data,
 			delay: delay 
 		});
+		this.reset();
+	}
+
+	isDone(){
+		return this.done;
 	}
 
 	/**
@@ -99,49 +120,57 @@ class Animation{
 	 * @return {Object} The current animation frame object
 	 */
 	next(time){
-		if (this.repeat !== -1 && this.loops >= this.repeat) {
-			this.mode = false;
-		}
-		if (this.frames.length > 0 && time >= this.tick) {
-			switch(this.mode){
-				case Animation.NORMAL:
-					this.count++;
-					if (this.count === this.frames.length) {
-						this.loops++;
-					}
-					break;
-				case Animation.REVERSE:
-					this.count += this.frames.length - 1;
-					if (this.count === this.frames.length) {
-						this.loops++;
-					}
-					break;
-				case Animation.ALTERNATE:
-					if (this.direction && this.mode === Animation.ALTERNATE) {
-						this.count++
-						if (this.count == this.frames.length - 1) {
-							this.direction = false;
-						}
-					}
-					else{
-						this.count--;
-						if (this.count == 0) {
-							this.direction = true;
-						}
-					}
-					if (this.count === 0) {
-						this.loops++;
-					}
-					break;
+		// console.log('test');
+		if (this.frames.length > 0 && time >= this.tick && !this.done) {
+			if (this.repeat !== -1 && this.loops >= this.repeat) {
+				this.done = true;
 			}
-			this.count %= this.frames.length;
-
-
 			let frame = this.frames[this.count];
-			this.tick = time + frame.delay;			
+			this.tick = time + frame.delay;
+			this.current = this.count;
+			this.advandeFrame();
 			return frame;
 		}
-		return this.frames[this.count];
+		return this.frames[this.current];
+	}
+
+	/**
+	 * Advance one step in the animation
+	 * @access private
+	 */
+	advandeFrame(){
+		switch(this.mode){
+			case Animation.NORMAL:
+				this.count++;
+				if (this.count === this.frames.length) {
+					this.loops++;
+				}
+				break;
+			case Animation.REVERSE:
+				this.count += this.frames.length - 1;
+				if (this.count === this.frames.length) {
+					this.loops++;
+				}
+				break;
+			case Animation.ALTERNATE:
+				if (this.direction && this.mode === Animation.ALTERNATE) {
+					this.count++
+					if (this.count == this.frames.length - 1) {
+						this.direction = false;
+					}
+				}
+				else{
+					this.count--;
+					if (this.count == 0) {
+						this.direction = true;
+					}
+				}
+				if (this.count === 0) {
+					this.loops++;
+				}
+				break;
+		}
+		this.count %= this.frames.length;
 	}
 }
 
