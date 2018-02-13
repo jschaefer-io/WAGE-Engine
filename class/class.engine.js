@@ -32,6 +32,78 @@ class Engine{
 		this.input = false
 		this.entities = [];
 		this.running = false;
+
+		this.viewport = {
+			x: 0,
+			y: 200
+		}
+	}
+
+	/**
+	 * Centers the Viewport around the given point
+	 * @param  {number} x - X-Coordinate
+	 * @param  {number} y - Y-Coordinate
+	 */
+	centerViewport(x, y){
+		this.centerViewportX(x);
+		this.centerViewportY(y);
+	}
+
+	/**
+	 * Centers the Viewport around the given x-value
+	 * @param  {number} x - X-Coordinate
+	 */
+	centerViewportX(x){
+		x -= this.canvas.width / 2;
+		this.setViewportX(x);
+	}
+
+	/**
+	 * Centers the Viewport around the given y-value
+	 * @param  {number} y - Y-Coordinate
+	 */
+	centerViewportY(y){
+		y -= this.canvas.height / 2;
+		this.setViewportY(y);
+	}
+
+	/**
+	 * Sets the viewport origin to the given point
+	 * @param  {number} x - X-Coordinate
+	 * @param  {number} y - Y-Coordinate
+	 */
+	setViewport(x, y){
+		this.setViewportX(x);
+		this.setViewportY(y);
+	}
+
+	/**
+	 * Sets the viewport x-origin to given value
+	 * @param  {number} x - X-Coordinate
+	 */
+	setViewportX(x){
+		this.viewport.x = x;
+	}
+
+	/**
+	 * Sets the viewport y-origin to given value
+	 * @param  {number} y - Y-Coordinate
+	 */
+	setViewportY(y){
+		this.viewport.y = y;
+	}
+
+	/**
+	 * Returns an Object containing the current Viewport data
+	 * @return {Object}
+	 */
+	getViewport(){
+		return {
+			x: this.viewport.x,
+			y: this.viewport.y,
+			width: this.canvas.width,
+			height: this.canvas.height
+		};
 	}
 
 	/**
@@ -158,6 +230,8 @@ class Engine{
 	 * @param  {int} h - the images height
 	 */
 	draw(img, sx, sy, sw, sh, x, y, w, h,){
+		x -= this.viewport.x;
+		y -= this.viewport.y;
 		this.ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
 	}
 
