@@ -22,6 +22,9 @@ import Queue from './class/class.queue.js';
 
 // Libs
 import EaseVector from './lib/class.easevector.js';
+import Gravity from './lib/class.gravity.js';
+import Callback from './lib/class.callback.js';
+import Collisions from './lib/class.collisions.js';
 
 const WAGE = {
 
@@ -63,12 +66,18 @@ const WAGE = {
 	 * @namespace WAGE.Library
 	 */
 	Library: {
+		
+		Collisions,
+		
+
 		/**
 		 * Effect Library
 		 * @namespace WAGE.Library.Effects
 		 */
 		Effects: {
-			EaseVector
+			EaseVector,
+			Gravity,
+			Callback
 		}
 	}
 };
